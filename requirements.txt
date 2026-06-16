@@ -1,0 +1,14 @@
+django
+djangorestframework
+django-cors-headers
+python-dotenv
+gunicorn
+ddgs
+faiss-cpu
+huggingface-hub
+langchain-mistralai
+langchain-community
+langchain-huggingface
+langchain-text-splitters
+requests
+newsapi-python
