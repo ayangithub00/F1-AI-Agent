@@ -1,4 +1,12 @@
-# 🏎️ F1 AI Agent
+---
+title: F1 AI Agent
+emoji: 🏎️
+colorFrom: red
+colorTo: gray
+sdk: docker
+pinned: false
+---
+# 🏎️ F1 AI Agenta
 
 An agentic AI assistant for Formula 1 — powered by Mistral LLM, OpenF1 API, and LangChain.
 
