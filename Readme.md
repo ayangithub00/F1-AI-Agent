@@ -6,9 +6,9 @@ colorTo: gray
 sdk: docker
 pinned: false
 ---
-# 🏎️ F1 AI Agenta
+# 🏎️ F1 AI Agent
 
-An agentic AI assistant for Formula 1 — powered by Mistral LLM, OpenF1 API, and LangChain.
+An F1 AI assistant powered by Mistral, LangGraph, and live F1 tools.
 
 ## What it does
 
@@ -20,17 +20,18 @@ Ask any question about Formula 1 in natural language — the agent decides which
 
 ## How it works
 
-The agent has 3 tools:
-- `get_f1_results` — fetches live and recent race results from OpenF1
-- `search_f1_news` — fetches latest F1 news from NewsAPI
-- `search_web` — DuckDuckGo search for general F1 questions
+The LangGraph workflow has four simple steps:
+- Classify the question
+- Fetch information with the right tool
+- Write an answer using the fetched information
+- Verify the answer before returning it
 
-The LLM (Mistral) decides which tool to use based on the question — this is what makes it agentic, not just a chatbot.
+The assistant uses OpenF1 for race information, NewsAPI for recent news, and DuckDuckGo for general F1 information.
 
 ## Tech Stack
 
-- **Backend** — Django REST Framework
-- **AI / Agent** — LangChain + Mistral AI
+- **Backend** — FastAPI
+- **AI / Agent** — LangGraph + Mistral AI
 - **Live Data** — OpenF1 API
 - **News** — NewsAPI
 - **Web Search** — DuckDuckGo (ddgs)
@@ -49,13 +50,13 @@ pip install -r requirements.txt
 Add `.env`:
 ```
 MISTRAL_API_KEY=your_key
-HUGGINGFACEHUB_API_TOKEN=your_key
 NEWS_API_KEY=your_key
 ```
 
+Save this file inside the `f1` folder.
+
 ```bash
-cd f1
-python manage.py runserver
+uvicorn f1.main:app --reload
 ```
 
 ## Author
