@@ -1,5 +1,8 @@
 from langchain_mistralai import ChatMistralAI
-from .config import MISTRAL_API_KEY
+try:
+    from .config import MISTRAL_API_KEY
+except ImportError:
+    from config import MISTRAL_API_KEY
 
 
 def get_llm():

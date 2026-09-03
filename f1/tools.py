@@ -2,7 +2,10 @@ from datetime import datetime, timedelta, timezone
 import requests
 from ddgs import DDGS
 from langchain_core.tools import tool
-from .config import NEWS_API_KEY
+try:
+    from .config import NEWS_API_KEY
+except ImportError:
+    from config import NEWS_API_KEY
 
 
 def get_race_results(race):
@@ -139,12 +142,11 @@ def search_f1_web(question: str) -> str:
     try:
         with DDGS() as search:
             results = search.text(f"Formula 1 {question}", max_results=5)
-
-        lines = []
-        for result in results:
-            lines.append(f"Title: {result['title']}")
-            lines.append(f"Information: {result['body']}")
-            lines.append("")
+            lines = []
+            for result in results:
+                lines.append(f"Title: {result['title']}")
+                lines.append(f"Information: {result['body']}")
+                lines.append("")
 
         return "\n".join(lines) or "No F1 information was found."
     except Exception as error:

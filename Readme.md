@@ -20,13 +20,13 @@ Ask any question about Formula 1 in natural language — the agent decides which
 
 ## How it works
 
-The LangGraph workflow has four simple steps:
-- Classify the question
-- Fetch information with the right tool
-- Write an answer using the fetched information
-- Verify the answer before returning it
+The LangGraph workflow:
+- **Intelligent Routing**: Instantly routes queries to live tools based on context (race results, upcoming calendar, recent news, web search, or instant conversational greetings).
+- **Live Tool Retrieval**: Fetches real-time data from OpenF1 API, NewsAPI, or DuckDuckGo.
+- **Answer Generation**: Synthesizes a factual, natural language response using Mistral AI based strictly on retrieved facts.
+- **Conversation Memory**: Maintains multi-turn session history for context-aware follow-up questions.
 
-The assistant uses OpenF1 for race information, NewsAPI for recent news, and DuckDuckGo for general F1 information.
+The assistant uses OpenF1 for live race results & calendar, NewsAPI for recent news, and DuckDuckGo for general F1 web search.
 
 ## Tech Stack
 
@@ -34,8 +34,8 @@ The assistant uses OpenF1 for race information, NewsAPI for recent news, and Duc
 - **AI / Agent** — LangGraph + Mistral AI
 - **Live Data** — OpenF1 API
 - **News** — NewsAPI
-- **Web Search** — DuckDuckGo (ddgs)
-- **Frontend** — HTML, CSS, JS
+- **Web Search** — DuckDuckGo (`ddgs`)
+- **Frontend** — HTML, CSS, JavaScript
 
 ## Setup
 
@@ -47,16 +47,21 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Add `.env`:
-```
-MISTRAL_API_KEY=your_key
-NEWS_API_KEY=your_key
+Create `.env` inside the `f1` folder:
+```env
+MISTRAL_API_KEY=your_mistral_api_key
+NEWS_API_KEY=your_news_api_key
+SESSION_SECRET=your_secret_key_optional
 ```
 
-Save this file inside the `f1` folder.
-
+Run the application:
 ```bash
 uvicorn f1.main:app --reload
+```
+or from inside the `f1` folder:
+```bash
+cd f1
+uvicorn main:app --reload
 ```
 
 ## Author
