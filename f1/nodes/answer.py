@@ -22,5 +22,16 @@ Question: {state['question']}
 
 Information:
 {state['tool_result']}"""
-    answer = get_llm().invoke(prompt).content
-    return {"answer": answer}
+    import time
+    llm = get_llm()
+    for attempt in range(3):
+        try:
+            answer = llm.invoke(prompt).content
+            return {"answer": answer}
+        except Exception as e:
+            if "429" in str(e) or "rate_limited" in str(e).lower():
+                if attempt < 2:
+                    time.sleep(2 ** attempt + 1)  # 2s, 3s
+                    continue
+            raise
+    return {"answer": "I'm receiving too many requests right now. Please try again in a moment."}
