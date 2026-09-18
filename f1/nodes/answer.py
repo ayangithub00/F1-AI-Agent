@@ -23,15 +23,24 @@ Question: {state['question']}
 Information:
 {state['tool_result']}"""
     import time
+    import httpx
+
     llm = get_llm()
-    for attempt in range(3):
+    for attempt in range(4):
         try:
             answer = llm.invoke(prompt).content
             return {"answer": answer}
-        except Exception as e:
-            if "429" in str(e) or "rate_limited" in str(e).lower():
-                if attempt < 2:
-                    time.sleep(2 ** attempt + 1)  # 2s, 3s
-                    continue
+        except httpx.HTTPStatusError as e:
+            if e.response.status_code == 429:
+                time.sleep(2 * (attempt + 1))
+                continue
             raise
-    return {"answer": "I'm receiving too many requests right now. Please try again in a moment."}
+        except Exception as e:
+            err = str(e)
+            if "429" in err or "rate_limited" in err.lower() or "rate limit" in err.lower():
+                time.sleep(2 * (attempt + 1))
+                continue
+            raise
+
+    return {"answer": "I'm a bit overloaded right now. Please try again in a few seconds!"}
+
