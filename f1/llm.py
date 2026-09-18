@@ -1,13 +1,13 @@
-from langchain_mistralai import ChatMistralAI
+from langchain_groq import ChatGroq
 try:
-    from .config import MISTRAL_API_KEY
+    from .config import GROQ_API_KEY
 except ImportError:
-    from config import MISTRAL_API_KEY
+    from config import GROQ_API_KEY
 
 
 def get_llm():
-    return ChatMistralAI(
-        model="mistral-small-latest",
-        api_key=MISTRAL_API_KEY,
+    return ChatGroq(
+        model="llama-3.1-8b-instant",
+        api_key=GROQ_API_KEY,
         temperature=0,
     )
